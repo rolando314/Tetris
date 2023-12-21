@@ -25,6 +25,7 @@ Game::Game()
   blocks = returnBlocks();
   currentBlock = getRandomBlock();
   nextBlock = getRandomBlock();
+  gameOver = false;
 }
 
 Block Game::getRandomBlock()
@@ -39,8 +40,7 @@ Block Game::getRandomBlock()
   for (int i = 0; i < 5; i++)
   {
     int j = (rand() % 100);
-    while (j < 0)
-      ;
+    while (j < 0);
   }
 
   int randomIndex = (rand() % blocks.size());
@@ -60,26 +60,43 @@ void Game::draw()
 void Game::handleInput()
 {
   int keyPressed = GetKeyPressed();
+  if (gameOver && keyPressed != 0){
+    gameOver = false;
+    reset();
+  }
   switch (keyPressed)
   {
   case KEY_LEFT:
-    currentBlock.move(0, -1);
-    if (isBlockOutside() || !blockFits())
-      currentBlock.move(0, 1);
-    break;
-  case KEY_RIGHT:
-    currentBlock.move(0, 1);
-    if (isBlockOutside() || !blockFits())
+    if (!gameOver)
+    {
       currentBlock.move(0, -1);
+      if (isBlockOutside() || !blockFits())
+        currentBlock.move(0, 1);
+    }
+    break;
+
+  case KEY_RIGHT:
+    if (!gameOver)
+    {
+      currentBlock.move(0, 1);
+      if (isBlockOutside() || !blockFits())
+        currentBlock.move(0, -1);
+    }
     break;
   case KEY_DOWN:
-    currentBlock.move(1, 0);
-    if (isBlockOutside() || !blockFits())
-      currentBlock.move(-1, 0);
+    if (!gameOver)
+    {
+      currentBlock.move(1, 0);
+      if (isBlockOutside() || !blockFits())
+        currentBlock.move(-1, 0);
+    }
     break;
 
   case KEY_UP:
-    rotateBlock();
+    if (!gameOver)
+    {
+      rotateBlock();
+    }
     break;
   }
 }
@@ -87,7 +104,7 @@ void Game::handleInput()
 void Game::rotateBlock()
 {
   currentBlock.rotate();
-  if (isBlockOutside() || blockFits())
+  if (isBlockOutside() || !blockFits())
     currentBlock.rotateBack();
 }
 
@@ -99,15 +116,23 @@ void Game::lockBlock()
     grid.grid[tile.row][tile.col] = currentBlock.id;
   }
   currentBlock = nextBlock;
+  if (!blockFits())
+  {
+    gameOver = true;
+    return;
+  }
   nextBlock = getRandomBlock();
 }
 
 bool Game::blockFits()
 {
   std::vector<Position> tiles = currentBlock.getCellPositions();
-  for (auto tile : tiles){
-    if (grid.isCellEmpty(tile.row, tile.col) == false) return false;
-  } return true;
+  for (auto tile : tiles)
+  {
+    if (grid.isCellEmpty(tile.row, tile.col) == false)
+      return false;
+  }
+  return true;
 }
 
 void Game::moveBlockDown()
@@ -118,4 +143,11 @@ void Game::moveBlockDown()
     currentBlock.move(-1, 0);
     lockBlock();
   }
+}
+
+void Game::reset(){
+  grid.initialize();
+  blocks = returnBlocks();
+  currentBlock = getRandomBlock();
+  nextBlock = getRandomBlock();
 }

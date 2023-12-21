@@ -12,6 +12,7 @@ class Game {
     void rotateBlock();
     void lockBlock();
     bool blockFits();
+    void reset();
 
   public: 
     Game();
@@ -20,4 +21,5 @@ class Game {
     Grid grid;
     void handleInput();
     void moveBlockDown();
+    bool gameOver;
 };
