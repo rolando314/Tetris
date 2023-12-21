@@ -10,6 +10,8 @@ class Game {
     Block currentBlock;
     Block nextBlock;
     void rotateBlock();
+    void lockBlock();
+    bool blockFits();
 
   public: 
     Game();
@@ -17,4 +19,5 @@ class Game {
     void draw();
     Grid grid;
     void handleInput();
+    void moveBlockDown();
 };

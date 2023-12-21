@@ -36,8 +36,12 @@ Block Game::getRandomBlock()
 
   // Don't ask me why, but if I don't call rand() first like this,
   // randomizing doesn't work.
-  for (int i = 0; i < 5; i ++ ){
-  int j = (rand() % 100); while (j < 0);} 
+  for (int i = 0; i < 5; i++)
+  {
+    int j = (rand() % 100);
+    while (j < 0)
+      ;
+  }
 
   int randomIndex = (rand() % blocks.size());
   Block block = blocks[randomIndex];
@@ -60,17 +64,17 @@ void Game::handleInput()
   {
   case KEY_LEFT:
     currentBlock.move(0, -1);
-    if (isBlockOutside())
+    if (isBlockOutside() || !blockFits())
       currentBlock.move(0, 1);
     break;
   case KEY_RIGHT:
     currentBlock.move(0, 1);
-    if (isBlockOutside())
+    if (isBlockOutside() || !blockFits())
       currentBlock.move(0, -1);
     break;
   case KEY_DOWN:
     currentBlock.move(1, 0);
-    if (isBlockOutside())
+    if (isBlockOutside() || !blockFits())
       currentBlock.move(-1, 0);
     break;
 
@@ -83,6 +87,35 @@ void Game::handleInput()
 void Game::rotateBlock()
 {
   currentBlock.rotate();
-  if (isBlockOutside())
+  if (isBlockOutside() || blockFits())
     currentBlock.rotateBack();
+}
+
+void Game::lockBlock()
+{
+  std::vector<Position> tiles = currentBlock.getCellPositions();
+  for (auto tile : tiles)
+  {
+    grid.grid[tile.row][tile.col] = currentBlock.id;
+  }
+  currentBlock = nextBlock;
+  nextBlock = getRandomBlock();
+}
+
+bool Game::blockFits()
+{
+  std::vector<Position> tiles = currentBlock.getCellPositions();
+  for (auto tile : tiles){
+    if (grid.isCellEmpty(tile.row, tile.col) == false) return false;
+  } return true;
+}
+
+void Game::moveBlockDown()
+{
+  currentBlock.move(1, 0);
+  if (isBlockOutside() || !blockFits())
+  {
+    currentBlock.move(-1, 0);
+    lockBlock();
+  }
 }
