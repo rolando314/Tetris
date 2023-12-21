@@ -8,12 +8,15 @@ int main(){
   Color BACKGROUND_COLOR = {5, 7, 74, 100};
 
   Grid grid = Grid();
+  grid.grid[0][5] = 1;
   grid.print();
 
   while(!WindowShouldClose()){
     BeginDrawing();
 
-    ClearBackground(BACKGROUND_COLOR);
+    ClearBackground(WHITE);
+
+    grid.draw();
 
     EndDrawing();
   }
