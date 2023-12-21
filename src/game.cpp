@@ -57,16 +57,28 @@ void Game::handleInput()
     if (isBlockOutside())
       currentBlock.move(0, 1);
     break;
+
   case KEY_RIGHT:
     currentBlock.move(0, 1);
     if (isBlockOutside())
       currentBlock.move(0, -1);
     break;
-    break;
+
   case KEY_DOWN:
     currentBlock.move(1, 0);
     if (isBlockOutside())
       currentBlock.move(-1, 0);
     break;
+
+  case KEY_UP:
+    rotateBlock();
+    break;
   }
+}
+
+void Game::rotateBlock()
+{
+  currentBlock.rotate();
+  if (isBlockOutside())
+    currentBlock.rotateBack();
 }
