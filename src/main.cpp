@@ -1,6 +1,7 @@
 #include <raylib.h>
-#include "grid.h"
-#include "blocks.h"
+#include "game.h"
+#include <iostream>
+using std::cout;
 
 int main(){
   InitWindow(300, 600, "Tetris");
@@ -8,18 +9,16 @@ int main(){
 
   // Color BACKGROUND_COLOR = {5, 7, 74, 100};
 
-  Grid grid = Grid();
-  grid.print();
-
-  LBlock block = LBlock();
+  Game game = Game();
+  game.grid.print();
 
   while(!WindowShouldClose()){
+    game.handleInput();
     BeginDrawing();
 
     ClearBackground(WHITE);
 
-    grid.draw();
-    block.draw();
+    game.draw();
 
     EndDrawing();
   }

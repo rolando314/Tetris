@@ -15,6 +15,7 @@ LBlock::LBlock()
   cells[3] = {Position(0, 0),
               Position(0, 1),
               Position(1, 1), Position(2, 1)};
+  move(0, 3);
 }
 
 JBlock::JBlock()
@@ -32,6 +33,7 @@ JBlock::JBlock()
   cells[3] = {Position(0, 1),
               Position(1, 1),
               Position(2, 0), Position(2, 1)};
+  move(0, 3);
 }
 
 IBlock::IBlock()
@@ -49,12 +51,14 @@ IBlock::IBlock()
   cells[3] = {Position(0, 1),
               Position(1, 1),
               Position(2, 1), Position(3, 1)};
+  move(-1, 3);
 }
 
 OBlock::OBlock()
 {
   id = 4;
   cells[0], cells[1], cells[2], cells[3] = {Position(0, 0), Position(0, 1), Position(1, 0), Position(1, 1)};
+  move(0, 4);
 }
 
 SBlock::SBlock()
@@ -72,6 +76,7 @@ SBlock::SBlock()
   cells[3] = {Position(0, 0),
               Position(1, 0),
               Position(1, 1), Position(2, 1)};
+  move(0, 3);
 }
 
 TBlock::TBlock()
@@ -89,6 +94,7 @@ TBlock::TBlock()
   cells[3] = {Position(0, 1),
               Position(1, 0),
               Position(1, 1), Position(2, 1)};
+  move(0, 3);
 }
 
 ZBlock::ZBlock()
@@ -106,4 +112,5 @@ ZBlock::ZBlock()
   cells[3] = {Position(0, 1),
               Position(1, 0),
               Position(1, 1), Position(2, 0)};
+  move(0, 3);
 }

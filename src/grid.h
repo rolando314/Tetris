@@ -15,4 +15,5 @@ class Grid {
     void initialize();
     void print();
     void draw();
+    bool isOutside(int row, int col);
 };
