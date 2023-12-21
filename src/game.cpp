@@ -33,6 +33,12 @@ Block Game::getRandomBlock()
   {
     blocks = returnBlocks();
   }
+
+  // Don't ask me why, but if I don't call rand() first like this,
+  // randomizing doesn't work.
+  for (int i = 0; i < 5; i ++ ){
+  int j = (rand() % 100); while (j < 0);} 
+
   int randomIndex = (rand() % blocks.size());
   Block block = blocks[randomIndex];
   blocks.erase(blocks.begin() + randomIndex);
@@ -57,13 +63,11 @@ void Game::handleInput()
     if (isBlockOutside())
       currentBlock.move(0, 1);
     break;
-
   case KEY_RIGHT:
     currentBlock.move(0, 1);
     if (isBlockOutside())
       currentBlock.move(0, -1);
     break;
-
   case KEY_DOWN:
     currentBlock.move(1, 0);
     if (isBlockOutside())
