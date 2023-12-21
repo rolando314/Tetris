@@ -1,4 +1,4 @@
-# Makefile for Raylib project
+# Makefile for Tetris game using Raylib
 
 # Compiler
 CC = g++
@@ -26,6 +26,9 @@ all: $(EXE)
 
 $(EXE): $(SRC)
 	$(CC) $(CFLAGS) -o $(EXE) $(SRC) -I$(RAYLIB_INC_DIR) $(RAYLIB_LIBS)
+
+run: $(EXE)
+	./$(EXE)
 
 clean:
 	rm -f $(EXE)
