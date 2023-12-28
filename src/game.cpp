@@ -26,6 +26,7 @@ Game::Game()
   currentBlock = getRandomBlock();
   nextBlock = getRandomBlock();
   gameOver = false;
+  score = 0;
 }
 
 Block Game::getRandomBlock()
@@ -40,7 +41,8 @@ Block Game::getRandomBlock()
   for (int i = 0; i < 5; i++)
   {
     int j = (rand() % 100);
-    while (j < 0);
+    while (j < 0)
+      ;
   }
 
   int randomIndex = (rand() % blocks.size());
@@ -53,14 +55,27 @@ void Game::draw()
 {
   {
     grid.draw();
-    currentBlock.draw();
+    currentBlock.draw(1, 1);
+    switch (nextBlock.id)
+    {
+    case 3:
+      nextBlock.draw(255, 290);
+      break;
+    case 4:
+      nextBlock.draw(255, 280);
+      break;
+    default:
+      nextBlock.draw(270, 270);
+      break;
+    }
   }
 }
 
 void Game::handleInput()
 {
   int keyPressed = GetKeyPressed();
-  if (gameOver && keyPressed != 0){
+  if (gameOver && keyPressed != 0)
+  {
     gameOver = false;
     reset();
   }
@@ -90,6 +105,7 @@ void Game::handleInput()
       if (isBlockOutside() || !blockFits())
         currentBlock.move(-1, 0);
     }
+    updateScore(0, 1);
     break;
 
   case KEY_UP:
@@ -122,6 +138,8 @@ void Game::lockBlock()
     return;
   }
   nextBlock = getRandomBlock();
+  int rowsCleared = grid.clearFullRows();
+  updateScore(rowsCleared, 0);
 }
 
 bool Game::blockFits()
@@ -145,9 +163,30 @@ void Game::moveBlockDown()
   }
 }
 
-void Game::reset(){
+void Game::reset()
+{
   grid.initialize();
   blocks = returnBlocks();
   currentBlock = getRandomBlock();
   nextBlock = getRandomBlock();
+  score = 0;
+}
+
+void Game::updateScore(int lines, int moveDownPoints)
+{
+  switch (lines)
+  {
+  case 1:
+    score += 100;
+    break;
+  case 2:
+    score += 300;
+    break;
+  case 3:
+    score += 500;
+    break;
+  default:
+    break;
+  }
+  score += moveDownPoints;
 }
