@@ -170,6 +170,7 @@ void Game::reset()
   currentBlock = getRandomBlock();
   nextBlock = getRandomBlock();
   score = 0;
+  gameOver = false;
 }
 
 void Game::updateScore(int lines, int moveDownPoints)
