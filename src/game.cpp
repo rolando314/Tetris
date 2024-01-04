@@ -186,6 +186,9 @@ void Game::updateScore(int lines, int moveDownPoints)
   case 3:
     score += 500;
     break;
+  case 4:
+    score += 700;
+    break;
   default:
     break;
   }
